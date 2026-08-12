@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base dark theme, no action bar -->
+    <style name="Theme.WatchParty" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/bg_dark</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimary">@color/red_live</item>
+        <item name="colorPrimaryDark">@color/red_dark</item>
+        <item name="colorAccent">@color/red_live</item>
+    </style>
+
+    <!-- Splash screen theme -->
+    <style name="Theme.WatchParty.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/bg_dark</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.WatchParty</item>
+    </style>
+
+    <!-- Fullscreen immersive theme for StreamActivity -->
+    <style name="Theme.WatchParty.Fullscreen" parent="Theme.WatchParty">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+</resources>

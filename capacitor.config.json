@@ -1,0 +1,13 @@
+{
+  "appId": "com.watchparty.live",
+  "appName": "WatchParty",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true,
+    "allowNavigation": [
+      "*"
+    ]
+  }
+}

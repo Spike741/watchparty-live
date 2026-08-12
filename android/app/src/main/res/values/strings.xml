@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">WatchParty</string>
+    <string name="channel_name">Stream Alerts</string>
+    <string name="channel_desc">Notifications when a match goes live</string>
+    <string name="notification_title">⚽ Match Live!</string>
+    <string name="lobby_title">FIFA 2026 Watch Party</string>
+    <string name="hint_message">Send a message…</string>
+    <string name="hint_nickname">Enter your nickname</string>
+    <string name="btn_join">Join Watch Party</string>
+    <string name="btn_chat">Join Chat Room</string>
+    <string name="stream_offline">Stream is currently offline. Retrying…</string>
+    <string name="loading_stream">Loading live stream…</string>
+    <string name="filter_live">Live / Upcoming</string>
+    <string name="filter_all">All</string>
+</resources>

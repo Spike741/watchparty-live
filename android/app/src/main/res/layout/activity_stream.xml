@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootStream"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <!-- VIDEO PLAYER (top half portrait / left half landscape) -->
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/playerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        app:use_controller="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="H,16:9" />
+
+    <!-- Guideline — separates video from chat in portrait (50%), landscape uses barrier -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLandscape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.60" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/glBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="playerView" />
+
+    <!-- CONTROLS OVERLAY (on top of video) -->
+    <FrameLayout
+        android:id="@+id/controlsOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_gradient_controls"
+        app:layout_constraintTop_toTopOf="@id/playerView"
+        app:layout_constraintBottom_toBottomOf="@id/playerView"
+        app:layout_constraintStart_toStartOf="@id/playerView"
+        app:layout_constraintEnd_toEndOf="@id/playerView">
+
+        <!-- Top bar: LIVE badge + title + viewer count -->
+        <LinearLayout
+            android:id="@+id/controlsTopBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="top"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/tvStreamLiveBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LIVE"
+                android:textColor="@color/text_primary"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_live_badge"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp" />
+
+            <TextView
+                android:id="@+id/tvStreamTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔴 Watch Party Stream"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp"
+                android:layout_marginStart="8dp"
+                android:singleLine="true"
+                android:ellipsize="end" />
+
+            <LinearLayout
+                android:id="@+id/layoutStreamViewers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_pill_dark"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👁"
+                    android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/tvStreamViewers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/text_primary"
+                    android:textSize="11sp"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Center play/pause button -->
+        <ImageButton
+            android:id="@+id/btnPlayPause"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_pause"
+            android:background="@drawable/bg_circle_button"
+            android:tint="#FFFFFF"
+            android:padding="14dp"
+            android:scaleType="fitCenter" />
+
+        <!-- Loading spinner -->
+        <ProgressBar
+            android:id="@+id/progressLoading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/red_live"
+            android:visibility="gone" />
+
+        <!-- Bottom control bar -->
+        <LinearLayout
+            android:id="@+id/controlsBottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="bottom"
+            android:padding="12dp">
+
+            <!-- Mute button + state label compound widget -->
+            <LinearLayout
+                android:id="@+id/muteGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnMute"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_mute"
+                    android:background="@drawable/bg_circle_button"
+                    android:tint="#FF4444"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:id="@+id/tvMuteLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MUTED"
+                    android:textColor="#FF4444"
+                    android:textSize="7sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="2dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Live Broadcast"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:layout_marginStart="8dp" />
+
+            <!-- Chat toggle -->
+            <ImageButton
+                android:id="@+id/btnChatToggle"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_chat"
+                android:background="@drawable/bg_circle_button"
+                android:tint="#FFFFFF"
+                android:padding="6dp"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Video Fit/Fill Toggle -->
+            <TextView
+                android:id="@+id/btnVideoScale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FILL"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_pill_dark"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- Fullscreen button -->
+            <ImageButton
+                android:id="@+id/btnFullscreen"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_fullscreen"
+                android:background="@android:color/transparent"
+                android:tint="#FFFFFF"
+                android:padding="4dp" />
+
+        </LinearLayout>
+
+        <!-- Offline overlay -->
+        <LinearLayout
+            android:id="@+id/layoutOffline"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/bg_dark"
+            android:visibility="gone"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📡"
+                android:textSize="48sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stream Offline"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The live stream is unreachable. Retrying…"
+                android:textColor="@color/text_muted"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_marginTop="4dp" />
+
+            <Button
+                android:id="@+id/btnRetry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Force Retry"
+                android:textSize="12sp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/bg_input" />
+
+        </LinearLayout>
+
+        <!-- BROADCAST ALERT POPUP — inside controlsOverlay so it always floats over video
+             in BOTH portrait and landscape regardless of chat visibility -->
+        <LinearLayout
+            android:id="@+id/broadcastAlertBanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#DD1a1a2e"
+            android:paddingStart="12dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvBroadcastEmoji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📣"
+                android:textSize="16sp"
+                android:paddingEnd="6dp" />
+
+            <TextView
+                android:id="@+id/tvBroadcastText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:maxWidth="240dp"
+                android:ellipsize="end"
+                android:maxLines="2" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- Divider between video and chat (portrait) -->
+    <View
+        android:id="@+id/chatDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/border_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/playerView" />
+
+    <!-- CHAT CONTAINER -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chatContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/bg_dark"
+        app:layout_constraintTop_toBottomOf="@id/chatDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Chat sub-header -->
+        <LinearLayout
+            android:id="@+id/chatHeader"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Live Chat"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_back_arrow"
+                android:background="@android:color/transparent"
+                android:tint="@color/text_muted"
+                android:padding="4dp" />
+
+        </LinearLayout>
+
+        <!-- Chat divider -->
+        <View
+            android:id="@+id/chatHeaderDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/border_color"
+            app:layout_constraintTop_toBottomOf="@id/chatHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Messages -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChat"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:clipToPadding="false"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/chatHeaderDivider"
+            app:layout_constraintBottom_toTopOf="@id/reactionBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Quick reactions bar -->
+        <HorizontalScrollView
+            android:id="@+id/reactionBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:background="@color/bg_dark"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            app:layout_constraintBottom_toTopOf="@id/chatInputBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reactions:"
+                    android:textColor="@color/text_muted"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Emojis: Goal (⚽), Cry (😢), Love (❤️), Happy (😊), Suspicious (🤨), Yellow Card (🟨), Red Card (🟥) -->
+                <TextView
+                    android:id="@+id/btnReactionGoal"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="⚽"
+                    android:textSize="18sp"
+                    android:background="@drawable/bg_pill_dark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginEnd="6dp" />
+
+                <TextView
+                    android:id="@+id/btnReactionCry"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="😢"
+                    android:textSize="18sp"
+                    android:background="@drawable/bg_pill_dark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginEnd="6dp" />
+
+                <TextView
+                    android:id="@+id/btnReactionLove"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="❤️"
+                    android:textSize="18sp"
+                    android:background="@drawable/bg_pill_dark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginEnd="6dp" />
+
+                <TextView
+                    android:id="@+id/btnReactionHappy"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="😊"
+                    android:textSize="18sp"
+                    android:background="@drawable/bg_pill_dark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginEnd="6dp" />
+
+                <TextView
+                    android:id="@+id/btnReactionSuspicious"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="🤨"
+                    android:textSize="18sp"
+                    android:background="@drawable/bg_pill_dark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginEnd="6dp" />
+
+                <TextView
+                    android:id="@+id/btnReactionYellowCard"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="🟨"
+                    android:textSize="18sp"
+                    android:background="@drawable/bg_pill_dark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginEnd="6dp" />
+
+                <TextView
+                    android:id="@+id/btnReactionRedCard"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="🟥"
+                    android:textSize="18sp"
+                    android:background="@drawable/bg_pill_dark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginEnd="12dp" />
+
+                <!-- Full Emoji Picker Button -->
+                <TextView
+                    android:id="@+id/btnFullEmoji"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="➕"
+                    android:textSize="14sp"
+                    android:background="@drawable/bg_pill_dark"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Chat input bar -->
+        <LinearLayout
+            android:id="@+id/chatInputBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:background="@color/bg_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:hint="@string/hint_message"
+                android:textColorHint="@color/text_muted"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:background="@drawable/bg_input_field"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:inputType="textShortMessage"
+                android:maxLength="200"
+                android:imeOptions="actionSend" />
+
+            <ImageButton
+                android:id="@+id/btnSend"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:src="@drawable/ic_send"
+                android:background="@drawable/bg_send_button"
+                android:tint="@color/text_primary"
+                android:padding="10dp"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
