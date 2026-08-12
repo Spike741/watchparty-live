@@ -17,44 +17,35 @@
 
 ## 📸 Screenshots Showcase
 
-### 📺 Desktop & Web Experience
-<table width="100%">
-  <tr>
-    <td width="50%" align="center">
-      <b>Live Stream Player & Watch Party Chat</b><br/><br/>
-      <img src="docs/screenshots/desktop_stream.png" width="100%" alt="Desktop Live Stream Broadcast" align="center" />
-    </td>
-    <td width="50%" align="center">
-      <b>Match Schedules & Live Room Selection</b><br/><br/>
-      <img src="docs/screenshots/matches_schedule.png" width="100%" alt="Match Schedules" align="center" />
-    </td>
-  </tr>
-</table>
+### 📺 Live Stream Player & Real-Time Watch Party (Desktop View)
+<p align="center">
+  <img src="docs/screenshots/desktop_stream.png" width="100%" alt="Desktop Live Stream Broadcast" />
+</p>
 
-### 📱 Mobile Web & Native App Experience
+### ⚽ Match Schedules & Room Discovery
+<p align="center">
+  <img src="docs/screenshots/matches_schedule.png" width="100%" alt="Match Schedules" />
+</p>
+
+### ⚡ Admin Control Panel & Stream Broadcast Manager
+<p align="center">
+  <img src="docs/screenshots/admin_dashboard.png" width="100%" alt="Admin Dashboard" />
+</p>
+
+### 📱 Mobile Web & Native Android App Experience
 <table width="100%">
   <tr>
     <td width="33%" align="center">
-      <b>Mobile Stream & Live Chat</b><br/><br/>
-      <img src="docs/screenshots/mobile_stream.jpg" width="100%" alt="Mobile Live Stream" align="center" />
+      <b>Mobile Stream View</b><br/><br/>
+      <img src="docs/screenshots/mobile_stream.jpg" width="100%" alt="Mobile Live Stream" />
     </td>
     <td width="33%" align="center">
       <b>Real-Time Chat & Emojis</b><br/><br/>
-      <img src="docs/screenshots/live_chat.png" width="100%" alt="Real-Time Chat Drawer" align="center" />
+      <img src="docs/screenshots/live_chat.png" width="100%" alt="Real-Time Chat Drawer" />
     </td>
     <td width="33%" align="center">
-      <b>Native Android App Interface</b><br/><br/>
-      <img src="docs/screenshots/mobile_app.jpg" width="100%" alt="Android Mobile App" align="center" />
-    </td>
-  </tr>
-</table>
-
-### ⚡ Admin Control Panel
-<table width="100%">
-  <tr>
-    <td width="100%" align="center">
-      <b>Password-Protected Broadcast Portal & Stream Manager</b><br/><br/>
-      <img src="docs/screenshots/admin_dashboard.png" width="100%" alt="Admin Dashboard" align="center" />
+      <b>Native Android App UI</b><br/><br/>
+      <img src="docs/screenshots/mobile_app.jpg" width="100%" alt="Android Mobile App" />
     </td>
   </tr>
 </table>
