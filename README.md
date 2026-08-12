@@ -36,7 +36,7 @@
     </td>
     <td width="50%" align="center">
       <b>2. Broadcast Controls & Live Stream Console</b><br/><br/>
-      <img src="docs/screenshots/admin_dashboard.png" width="100%" alt="Admin Control Console" />
+      <img src="docs/screenshots/admin_console.png" width="100%" alt="Admin Control Console" />
     </td>
   </tr>
 </table>
