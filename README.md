@@ -28,9 +28,18 @@
 </p>
 
 ### ⚡ Admin Control Panel & Stream Broadcast Manager
-<p align="center">
-  <img src="docs/screenshots/admin_dashboard.png" width="100%" alt="Admin Dashboard" />
-</p>
+<table width="100%">
+  <tr>
+    <td width="50%" align="center">
+      <b>1. Password-Protected Admin Login Portal</b><br/><br/>
+      <img src="docs/screenshots/admin_login.png" width="100%" alt="Admin Login Portal" />
+    </td>
+    <td width="50%" align="center">
+      <b>2. Broadcast Controls & Live Stream Console</b><br/><br/>
+      <img src="docs/screenshots/admin_dashboard.png" width="100%" alt="Admin Control Console" />
+    </td>
+  </tr>
+</table>
 
 ### 📱 Mobile Web & Native Android App Experience
 <table width="100%">
